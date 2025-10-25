@@ -6,7 +6,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'main'
-                    branch pattern: 'feature.*', comparator: 'REGEXP'
+                    branch pattern: '^feature/.+', comparator: 'REGEXP'
                 }
             }
             steps {
@@ -18,7 +18,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'main'
-                    branch pattern: 'feature.*', comparator: 'REGEXP'
+                    branch pattern: '^feature/.+', comparator: 'REGEXP'
                 }
             }
             steps {
@@ -30,7 +30,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'main'
-                    branch pattern: 'feature.*', comparator: 'REGEXP'
+                    branch pattern: '^feature/.+', comparator: 'REGEXP'
                 }
             }
             steps {
@@ -42,7 +42,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'main'
-                    branch pattern: 'feature.*', comparator: 'REGEXP'
+                    branch pattern: '^feature/.+', comparator: 'REGEXP'
                 }
             }
             steps {

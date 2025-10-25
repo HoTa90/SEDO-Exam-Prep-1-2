@@ -1,18 +1,12 @@
 pipeline {
     agent any
 
-    triggers {
- 
-        pollSCM('H/5 * * * *')
-    }
-
-
     stages {
-        stage('Checkout Repo') {
+        stage('Checkout') {
             when {
                 anyOf {
                     branch 'main'
-                    branch pattern: "feature.*", comparator: "REGEXP"
+                    branch pattern: 'feature.*', comparator: 'REGEXP'
                 }
             }
             steps {
@@ -20,34 +14,40 @@ pipeline {
             }
         }
 
-        stage('Setup .NET') {
-            steps {
-                sh 'dotnet --version || sudo apt-get update && sudo apt-get install -y dotnet-sdk-6.0'
+        stage('Restore') {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch pattern: 'feature.*', comparator: 'REGEXP'
+                }
             }
-        }
-
-        stage('Restore dependencies') {
             steps {
-                sh 'dotnet restore'
+                bat 'dotnet restore'
             }
         }
 
         stage('Build') {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch pattern: 'feature.*', comparator: 'REGEXP'
+                }
+            }
             steps {
-                sh 'dotnet build --no-restore'
+                bat 'dotnet build --no-restore'
             }
         }
 
         stage('Test') {
-            steps {
-                sh 'dotnet test --no-build --verbosity normal'
+            when {
+                anyOf {
+                    branch 'main'
+                    branch pattern: 'feature.*', comparator: 'REGEXP'
+                }
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline finished.'
+            steps {
+                bat 'dotnet test --no-build --verbosity normal'
+            }
         }
     }
 }
